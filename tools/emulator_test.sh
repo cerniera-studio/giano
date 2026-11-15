@@ -21,6 +21,6 @@ shape cover-upright 719 1680
 shape cover-turned 1680 719
 shape main-upright 1503 1568
 shape main-turned 1568 1503
-adb logcat -d -s Giano:I AndroidRuntime:E > app-log.txt
+{ echo "Giano log"; adb logcat -d -s Giano:I AndroidRuntime:E; } > app-log.txt
 adb shell wm size reset; adb shell wm density reset
 exit $fail
