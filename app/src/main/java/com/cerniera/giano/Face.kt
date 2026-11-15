@@ -26,6 +26,11 @@ class Face(ctx: Context, var words: String = "Giano") : View(ctx) {
     private val glow = Paint(Paint.ANTI_ALIAS_FLAG)
     private val hair = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = withAlpha(0xFFD9BB86.toInt(), 0.35f); strokeWidth = ctx.resources.displayMetrics.density }
     private val t0 = SystemClock.uptimeMillis()
+    /** For the probe: told when the face's window is shown, hidden, attached or detached. */
+    var onSeen: ((String) -> Unit)? = null
+    override fun onAttachedToWindow() { super.onAttachedToWindow(); onSeen?.invoke("attached to the back") }
+    override fun onDetachedFromWindow() { onSeen?.invoke("detached"); super.onDetachedFromWindow() }
+    override fun onWindowVisibilityChanged(v: Int) { super.onWindowVisibilityChanged(v); onSeen?.invoke(if (v == View.VISIBLE) "window visible" else "window hidden") }
 
     override fun onDraw(c: Canvas) {
         val w = width.toFloat(); val h = height.toFloat()
